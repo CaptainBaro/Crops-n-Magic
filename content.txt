@@ -1,0 +1,26 @@
+Crops;
+Verschiedene normale Crops
+Qualitäteten
+Normale Crops kann man zu einem Gericht kochen
+Mystische Kräuter mit verschiedensten Effekten(schwer zu finden und sehr schwer zu züchten)
+Magie:
+Relikte und Zauberstäbe:
+Zauberstäbe gibt es in verschiedenen Tiers 1-5
+Zauberstäbe craftet man, werden immer resourcenteurer
+Zauberstäbe können nur zauber ihres Tieres oder niedriger speichern und maximal unterschiedlich viele, kommt darauf an was für ein tier
+Spell Assemble Table
+Zauber findet man entweder in Strukturen, Pyramiden und Tempel: Tier 1-2, Spawner: Tier: 2-3, Strongholds und Endcitys: Tier 3-4, Bastions und Mansions: Tier 4-5
+Relikte:
+Relikte sind mächtige Gegenstände die keine gezielten Attacken machen können,
+Relikte sind sehr selten und es gibt von jedem nur eins
+Relikte können alles sein
+Relikte Ideen:
+Relikt des Todes:
+Relikt des Lichts:
+Relikt der Unterwasseratmung: (Träne der Meerjungfrau)
+Relikt der Unterwasserschnelligkeit:
+Relikt der Schnelligkeit: für eine Zeit Speed
+Relikt der Wahren Sicht: Kann Leute beobachten
+Relikt der Aufdeckung: Glowing effekt
+Relikt des Wachstums: Lässt crops wachsen
+Relikt des Großen Sprunges:
