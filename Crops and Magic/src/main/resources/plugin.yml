@@ -1,6 +1,7 @@
-name: Crops and Magic
+name: Crops-and-Magic
 version: '${project.version}'
-main: de.darkyiu.Main
+main: de.darkyiu.crops_and_magic.Main
 api-version: 1.19
 authors: [ Darkyiu ]
-description: A plugin with crops and magic
+commands:
+  test:
