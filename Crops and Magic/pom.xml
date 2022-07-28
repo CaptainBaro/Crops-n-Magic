@@ -6,7 +6,7 @@
 
     <groupId>de.darkyiu</groupId>
     <artifactId>crops_and_magic</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <name>Crops and Magic</name>

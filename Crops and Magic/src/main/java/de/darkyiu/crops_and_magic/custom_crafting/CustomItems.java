@@ -4,7 +4,8 @@ import org.bukkit.Material;
 
 public enum CustomItems {
 
-    WAND_CORE("§5Wand Core", "§7A important piece for crafting a wand.", Material.DIAMOND, "Item.Wand_Core", 3454, true, true);
+    WAND_CORE("§2Wand Core", "§7A important piece for crafting a wand.", Material.DIAMOND, "Item.Wand_Core", 3454, true, true),
+    NETHERITE_CORE("§dNetherite Core", "§7One of the most rarest §7items. Used for crafting a Tier 5 Wand.", Material.NETHER_STAR, "Item.Netherite_Core", 4567, true, true);
 
     private String name;
     private String lore;

@@ -13,11 +13,11 @@ import java.nio.file.WatchKey;
 public class ItemManager {
 
     public static ItemStack WandCore = new CustomItemBuilder(CustomItems.WAND_CORE).build();
-    public static ItemStack Wand;
+    public static ItemStack Netherite_Core = new CustomItemBuilder(CustomItems.NETHERITE_CORE).build();
 
     public void init(){
         createWandCore();
-        createWand();
+        createNetheriteCore();
     }
 
     private void createWandCore(){
@@ -26,21 +26,13 @@ public class ItemManager {
         shapelessRecipe.setIngredient('*', Material.DIAMOND);
         Bukkit.getServer().addRecipe(shapelessRecipe);
     }
-    private void createWand(){
-        ItemStack itemStack = new ItemStack(Material.STICK, 1);
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName("§aWand§c(Tier 1)");
-        meta.addEnchant(Enchantment.DURABILITY, 1, false);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        itemStack.setItemMeta(meta);
-        Wand = itemStack;
 
-        ShapedRecipe shapedRecipe = new ShapedRecipe(NamespacedKey.minecraft("wand"), itemStack);
-        shapedRecipe.shape(" * ", " / ", " # ");
-        shapedRecipe.setIngredient('*', Material.STICK);
-        shapedRecipe.setIngredient('/', Material.GOLD_INGOT);
-        shapedRecipe.setIngredient('#', new RecipeChoice.ExactChoice(WandCore));
-        Bukkit.addRecipe(shapedRecipe);
+    private void createNetheriteCore(){
+        ShapedRecipe shapedRecipe = new ShapedRecipe(NamespacedKey.minecraft("netherite_core"), Netherite_Core);
+        shapedRecipe.shape("***", "*/*", "***");
+        shapedRecipe.setIngredient('*', Material.NETHERITE_INGOT);
+        shapedRecipe.setIngredient('/', Material.NETHER_STAR);
+        Bukkit.getServer().addRecipe(shapedRecipe);
     }
 
 }
