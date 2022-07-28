@@ -27,3 +27,4 @@ Relikt des Großen Sprunges:
 Relikt des Feuers: Macht eine Feuerwelle welche andere anzündet: (Kralle des Teufels)
 Relikt der Heilung: Heilt 3 herzen: (Runenstein der Shamanin) Stein mit Elhaz in der mitte
 Relikt der letzten Chance: gibt strenght wenn der spieler unter 2 herzen kommt: Runenstein mit Fehu in der mitte: 
+Relikt der Angst: gibt anderen Spielern in der Umgebung Darkness und das Herzschlagen von Warden, gut zum flüchten und zum verwirren, maybe warden drop?
