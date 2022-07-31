@@ -1,0 +1,16 @@
+
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/pumpkin_seeds"
+ },
+
+ "overrides": [
+  { "predicate": {"custom_model_data": 346}, "model": "item/strawberry_stage1"},
+  { "predicate": {"custom_model_data": 347}, "model": "item/strawberry_stage2"},
+  { "predicate": {"custom_model_data": 348}, "model": "item/strawberry_stage3"}
+
+ ]
+
+ 
+}
