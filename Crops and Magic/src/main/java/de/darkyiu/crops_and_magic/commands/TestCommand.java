@@ -1,34 +1,32 @@
 package de.darkyiu.crops_and_magic.commands;
 
-import de.darkyiu.crops_and_magic.crops.Crop;
-import de.darkyiu.crops_and_magic.custom_crafting.CustomItemBuilder;
-import de.darkyiu.crops_and_magic.custom_crafting.CustomItems;
+
+import de.darkyiu.crops_and_magic.Main;
 import de.darkyiu.crops_and_magic.custom_crafting.ItemManager;
-import de.darkyiu.crops_and_magic.util.SkinGrabber;
+import de.darkyiu.crops_and_magic.relics.Relic;
+import de.darkyiu.crops_and_magic.wand.WandAssemblyTable;
 import org.bukkit.Bukkit;
-import org.bukkit.CoalType;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.advancement.Advancement;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.loot.LootTables;
-import org.bukkit.loot.Lootable;
+import org.bukkit.inventory.Recipe;
+
+import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class TestCommand implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(@Nonnull CommandSender commandSender, @Nonnull Command command,@Nonnull String s,@Nonnull String[] strings) {
         if (commandSender instanceof Player){
             Player player = (Player) commandSender;
-            player.discoverRecipe(NamespacedKey.minecraft("netherite_core"));
-            player.discoverRecipe(NamespacedKey.minecraft("wand_core"));
+            player.discoverRecipe(NamespacedKey.fromString("wand_core"));
+            player.openInventory(WandAssemblyTable.createGui(WandAssemblyTable.title_first));
+
+
         }
         return false;
     }

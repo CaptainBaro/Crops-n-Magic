@@ -1,5 +1,6 @@
 package de.darkyiu.crops_and_magic.spells;
 
+import de.darkyiu.crops_and_magic.util.BasicUtility;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -13,8 +14,8 @@ public class BiggerHeal implements SpellAbility {
 
     @Override
     public void onRightCLick(Player player, ItemStack itemStack) {
-        player.setHealth(player.getHealth() + 6);
-        Location location = player.getLocation().add(0,1,0);
+        BasicUtility.healPlayerSavely(player, 6);
+        Location location = player.getLocation().add(0,2.5,0);
         location.getWorld().spawnParticle(Particle.HEART, location, 10);
     }
 }

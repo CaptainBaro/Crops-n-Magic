@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ public class PlantListener implements Listener {
                         Crop crop = CustomItemBuilder.getEatingCrops(event.getItem());
                         Location targetLocation = event.getClickedBlock().getLocation().add(0,1,0);
                         ItemFrame entity = (ItemFrame) targetLocation.getWorld().spawnEntity(targetLocation, EntityType.ITEM_FRAME);
+                        entity.setFacingDirection(BlockFace.UP);
                         entity.setSilent(true);
                         Main.getPlugin().getFrameList().add(entity.getUniqueId().toString());
                         entity.setVisible(false);
@@ -54,9 +56,9 @@ public class PlantListener implements Listener {
                                             entity.setItem(new CustomItemBuilder(crop).createFarmingCrop(crop, CustomItemBuilder.getStage(entity.getItem())+1));
                                         }
                                     }
-                                }.runTaskLater(Main.getPlugin(), 20*10);
+                                }.runTaskLater(Main.getPlugin(), 20*60*5);
                             }
-                        }.runTaskLater(Main.getPlugin(),20*10);
+                        }.runTaskLater(Main.getPlugin(),20*60*5);
                     }
                 }
             }
@@ -136,9 +138,9 @@ public class PlantListener implements Listener {
                                     itemFrame.setItem(new CustomItemBuilder(crop).createFarmingCrop(crop, CustomItemBuilder.getStage(itemFrame.getItem())+1));
                                 }
                             }
-                        }.runTaskLater(Main.getPlugin(), 20*10);
+                        }.runTaskLater(Main.getPlugin(), 20*60*5);
                     }
-                }.runTaskLater(Main.getPlugin(),20*10);
+                }.runTaskLater(Main.getPlugin(),20*60*5);
                 break;
             case 3:
                 player.playSound(player.getLocation(), Sound.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, 3f, 5);
@@ -159,9 +161,9 @@ public class PlantListener implements Listener {
                                 }
 
                             }
-                        }.runTaskLater(Main.getPlugin(), 20*10);
+                        }.runTaskLater(Main.getPlugin(), 20*60*5);
                     }
-                }.runTaskLater(Main.getPlugin(),20*10);
+                }.runTaskLater(Main.getPlugin(),20*60*5);
                 break;
         }
 

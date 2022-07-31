@@ -2,13 +2,16 @@ package de.darkyiu.crops_and_magic.custom_crafting;
 
 import de.darkyiu.crops_and_magic.crops.Crop;
 import de.darkyiu.crops_and_magic.crops.FarmingCrops;
+import de.darkyiu.crops_and_magic.relics.Relic;
 import de.darkyiu.crops_and_magic.spells.Spell;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,14 @@ public class CustomItemBuilder {
     private CustomItems customItems;
     private Crop crop;
     private Spell spell;
+    private Relic relic;
+    private CustomFood customFood;
+
+    public CustomItemBuilder(CustomFood customFood){
+        itemStack = new ItemStack(customFood.getMaterial(), 1);
+        this.customFood = customFood;
+        meta = itemStack.getItemMeta();
+    }
 
     public CustomItemBuilder(CustomItems customItems){
         itemStack = new ItemStack(customItems.getMaterial(), 1);
@@ -26,6 +37,11 @@ public class CustomItemBuilder {
         meta = itemStack.getItemMeta();
     }
 
+    public CustomItemBuilder(Relic relic){
+        itemStack = new ItemStack( Material.STRUCTURE_VOID,1);
+        meta = itemStack.getItemMeta();
+        this.relic = relic;
+    }
     public CustomItemBuilder(Crop crop){
         this.crop = crop;
     }
@@ -34,6 +50,9 @@ public class CustomItemBuilder {
         this.spell = spell;
     }
 
+
+
+
     public ItemStack build(){
         meta.setDisplayName(customItems.getName());
         meta.setCustomModelData(customItems.getCustomModelData());
@@ -41,8 +60,10 @@ public class CustomItemBuilder {
             meta.addEnchant(Enchantment.DURABILITY, 1, false);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
-        List<String> lore = new ArrayList<>();
-        meta.setLore(cutLore(customItems.getLore()));
+        if (customItems.getLore()!=null){
+            List<String> lore = new ArrayList<>();
+            meta.setLore(cutLore(customItems.getLore()));
+        }
         if (customItems.getLocalizedName()!=null){
             meta.setLocalizedName(customItems.getLocalizedName());
         }
@@ -51,6 +72,17 @@ public class CustomItemBuilder {
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         }
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+
+    public ItemStack createFood(){
+        meta.setDisplayName(customFood.getName());
+        meta.setLocalizedName(customFood.getLocalizedName());
+        if (customFood.getLore()!=null){
+            meta.setLore(cutLore(customFood.getLore()));
+        }
+        meta.setCustomModelData(customFood.getCustomModelData());
         itemStack.setItemMeta(meta);
         return itemStack;
     }
@@ -84,8 +116,35 @@ public class CustomItemBuilder {
         return itemStack;
     }
 
+    public ItemStack createRelic(){
+        meta.setDisplayName(relic.getName());
+        meta.setLocalizedName(relic.getLocalizedName());
+        meta.setCustomModelData(relic.getCustomModelData());
+        List<String>  lore = new ArrayList<>();
+        if(relic.getLore() != null){
+            lore.add("");
+            ArrayList<String> lores = cutLore(relic.getLore());
+            for (String addLore : lores){
+                lore.add("§7" + addLore);
+            }
+        }
+        lore.add(ChatColor.LIGHT_PURPLE + "§lLOST RELIC");
+        meta.setLore(lore);
+        if (relic.isEnchanted()){
+            meta.addEnchant(Enchantment.DURABILITY, 1, false);
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        if (relic.isUnbreakable()){
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        }
+        itemStack.setItemMeta(meta);
+        return  itemStack;
+    }
+
     public ItemStack createFarmingCrop(Crop crop,int stage){
-        itemStack = new ItemStack(Material.STONE);
+        itemStack = new ItemStack(Material.PUMPKIN_SEEDS);
         meta = itemStack.getItemMeta();
         switch (stage){
             case 1:
@@ -155,10 +214,37 @@ public class CustomItemBuilder {
         }
         return null;
     }
+
+    public static CustomFood getCustomFood(ItemStack itemStack) {
+        for(CustomFood customFood1 : CustomFood.values()){
+            if (customFood1.getLocalizedName().equalsIgnoreCase(itemStack.getItemMeta().getLocalizedName())){
+                return customFood1;
+            }
+        }
+        return null;
+    }
+    public static CustomItems getCustomItem(String string) {
+        for(CustomItems customFood1 : CustomItems.values()){
+            if (string.contains(customFood1.getLocalizedName())){
+                return customFood1;
+            }
+        }
+        return null;
+    }
+
     public static Spell getSpell(String string){
         for(Spell spell : Spell.values()){
             if (spell.getLocalizedName().equalsIgnoreCase(string)){
                 return spell;
+            }
+        }
+        return null;
+    }
+
+    public static Relic getRelic(String string){
+        for(Relic relic1 : Relic.values()){
+            if (relic1.getLocalizedName().equalsIgnoreCase(string)){
+                return relic1;
             }
         }
         return null;
@@ -172,6 +258,19 @@ public class CustomItemBuilder {
         return null;
     }
 
+    public static int getTier(String string){
+        if (string.contains("Item.Wand.1")){
+            return 1;
+        }else if (string.contains("Item.Wand.2")){
+            return 2;
+        }else if (string.contains("Item.Wand.3")){
+            return 3;
+        }else if (string.contains("Item.Wand.4")){
+            return 4;
+        }else if (string.contains("Item.Wand.5")){
+            return 5;
+        }else return 0;
+    }
 
     public static int getStage(ItemStack itemStack){
         if (itemStack.getItemMeta()==null)return 0;

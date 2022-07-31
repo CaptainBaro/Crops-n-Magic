@@ -2,6 +2,9 @@ package de.darkyiu.crops_and_magic.relics;
 
 import de.darkyiu.crops_and_magic.relics.relic_abilities.HealingRelic;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 public enum Relic {
 
@@ -58,5 +61,12 @@ public enum Relic {
 
     public int getCooldDown() {
         return cooldDown;
+    }
+
+    public static void relicFound(){
+        for(Player player : Bukkit.getOnlinePlayers()){
+            player.sendTitle("§cLost Relic", "§fA lost relic was found.", 10, 80, 20);
+            player.playSound(player, Sound.ENTITY_WITHER_DEATH, 5, 2);
+        }
     }
 }
