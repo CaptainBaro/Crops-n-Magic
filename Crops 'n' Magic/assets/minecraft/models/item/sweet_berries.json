@@ -1,0 +1,10 @@
+
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/sweet_berries"
+ },
+ "overrides": [
+  { "predicate": { "custom_model_data": 345}, "model": "item/sweet_berries/1" }
+ ]
+}
