@@ -1,6 +1,6 @@
 Crops;
 Verschiedene normale Crops
-Qualitäteten
+(Qualitäteten)
 Normale Crops kann man zu einem Gericht kochen
 Mystische Kräuter mit verschiedensten Effekten(schwer zu finden und sehr schwer zu züchten)
 Magie:
