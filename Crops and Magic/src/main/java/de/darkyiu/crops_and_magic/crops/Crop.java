@@ -2,18 +2,19 @@ package de.darkyiu.crops_and_magic.crops;
 
 public enum Crop {
 
+    TOMATO("§fTomato", null, 349, "Crop.Eat.Tomato", "Crop.Farm.Tomato.1", "Crop.Farm.Tomato.2", "Crop.Farm.Tomato.3", 350, 351,352),
     STRAWBERRY("§fStrawberry",null, 345, "Crop.Eat.Strawberry", "Crop.Farm.Strawberry.1","Crop.Farm.Strawberry.2", "Crop.Farm.Strawberry.3" , 346,347,348);
 
-    private String name;
-    private String lore;
-    private int modelEat;
-    private String localized_Eat;
-    private String localized_Farm_1;
-    private String localized_Farm_2;
-    private String localized_Farm_3;
-    private int model_Farm_1;
-    private int model_Farm_2;
-    private int model_Farm_3;
+    private final String name;
+    private final String lore;
+    private final int modelEat;
+    private final String localized_Eat;
+    private final String localized_Farm_1;
+    private final String localized_Farm_2;
+    private final String localized_Farm_3;
+    private final int model_Farm_1;
+    private final int model_Farm_2;
+    private final int model_Farm_3;
 
     Crop(String name, String lore, int modelEat, String localized_Eat, String localized_Farm_1, String localized_Farm_2, String localized_Farm_3, int model_Farm_1, int model_Farm_2, int model_Farm_3){
         this.name = name;

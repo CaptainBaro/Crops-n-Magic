@@ -8,5 +8,8 @@ commands:
   spell:
   crop:
   cui:
+  upgrademodule:
+    aliases:
+      - um
   relic:
     permission: op

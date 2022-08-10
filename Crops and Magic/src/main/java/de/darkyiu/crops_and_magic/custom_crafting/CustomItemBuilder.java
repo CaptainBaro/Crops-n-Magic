@@ -24,6 +24,7 @@ public class CustomItemBuilder {
     private Spell spell;
     private Relic relic;
     private CustomFood customFood;
+    private WandUpgradeModule wandUpgradeModule;
 
     public CustomItemBuilder(CustomFood customFood){
         itemStack = new ItemStack(customFood.getMaterial(), 1);
@@ -33,6 +34,11 @@ public class CustomItemBuilder {
 
     public CustomItemBuilder(CustomItems customItems){
         itemStack = new ItemStack(customItems.getMaterial(), 1);
+        this.customItems = customItems;
+        meta = itemStack.getItemMeta();
+    }
+    public CustomItemBuilder(CustomItems customItems, int amount){
+        itemStack = new ItemStack(customItems.getMaterial(), amount);
         this.customItems = customItems;
         meta = itemStack.getItemMeta();
     }
@@ -50,7 +56,11 @@ public class CustomItemBuilder {
         this.spell = spell;
     }
 
-
+    public CustomItemBuilder(WandUpgradeModule wandUpgradeModule){
+        this.wandUpgradeModule = wandUpgradeModule;
+        this.itemStack = new ItemStack(wandUpgradeModule.getMaterial());
+        meta = itemStack.getItemMeta();
+    }
 
 
     public ItemStack build(){
@@ -64,9 +74,7 @@ public class CustomItemBuilder {
             List<String> lore = new ArrayList<>();
             meta.setLore(cutLore(customItems.getLore()));
         }
-        if (customItems.getLocalizedName()!=null){
-            meta.setLocalizedName(customItems.getLocalizedName());
-        }
+        meta.setLocalizedName(customItems.getLocalizedName());
         if (customItems.isUnbreakable()){
             meta.setUnbreakable(true);
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -105,6 +113,19 @@ public class CustomItemBuilder {
     public ItemStack createEatingCrop(Crop crop){
         this.crop = crop;
         itemStack = new ItemStack(Material.SWEET_BERRIES);
+        meta = itemStack.getItemMeta();
+        meta.setDisplayName(crop.getName());
+        meta.setCustomModelData(crop.getModelEat());
+        meta.setLocalizedName(crop.getLocalized_Eat());
+        if (crop.getLore() != null){
+            meta.setLore(cutLore(crop.getLore()));
+        }
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+    public ItemStack createEatingCrop(Crop crop, int amount){
+        this.crop = crop;
+        itemStack = new ItemStack(Material.SWEET_BERRIES, amount);
         meta = itemStack.getItemMeta();
         meta.setDisplayName(crop.getName());
         meta.setCustomModelData(crop.getModelEat());
@@ -189,6 +210,25 @@ public class CustomItemBuilder {
         return itemStack;
     }
 
+    public ItemStack createUpgradeModule(){
+        meta.setDisplayName(wandUpgradeModule.getName());
+        meta.setLocalizedName(wandUpgradeModule.getId());
+        List<String> lore = new ArrayList<>();
+        if (wandUpgradeModule.getLore() !=null){
+            lore.add("");
+            ArrayList<String> lores = cutLore(wandUpgradeModule.getLore());
+            for (String addlore : lores){
+                lore.add("§7" + addlore);
+            }
+        }
+        lore.add("§7Cooldown Reduction: §a" + wandUpgradeModule.getCooldown_reduction() + "§7%");
+        lore.add("§7Cooldown Addition: §c" + wandUpgradeModule.getDamage_increasing() + "§7%");
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.setLore(lore);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+
 
     public static Crop getFarmingCrop(ItemStack itemStack){
         if (itemStack.getItemMeta()==null)return null;
@@ -227,6 +267,15 @@ public class CustomItemBuilder {
         for(CustomItems customFood1 : CustomItems.values()){
             if (string.contains(customFood1.getLocalizedName())){
                 return customFood1;
+            }
+        }
+        return null;
+    }
+
+    public static WandUpgradeModule getWandUpgrade(String string) {
+        for(WandUpgradeModule wandUpgradeModule : WandUpgradeModule.values()){
+            if (string.contains(wandUpgradeModule.getId())){
+                return wandUpgradeModule;
             }
         }
         return null;

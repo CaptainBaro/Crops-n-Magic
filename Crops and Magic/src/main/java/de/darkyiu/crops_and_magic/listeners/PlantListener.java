@@ -14,7 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +39,7 @@ public class PlantListener implements Listener {
                         Crop crop = CustomItemBuilder.getEatingCrops(event.getItem());
                         Location targetLocation = event.getClickedBlock().getLocation().add(0,1,0);
                         ItemFrame entity = (ItemFrame) targetLocation.getWorld().spawnEntity(targetLocation, EntityType.ITEM_FRAME);
-                        entity.setFacingDirection(BlockFace.UP);
+                        entity.setFacingDirection(BlockFace.UP, true);
                         entity.setSilent(true);
                         Main.getPlugin().getFrameList().add(entity.getUniqueId().toString());
                         entity.setVisible(false);
@@ -101,6 +103,38 @@ public class PlantListener implements Listener {
                                 itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
                                 break;
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByBlock(HangingBreakEvent event) {
+        if (event.getEntity().getType().equals(EntityType.ITEM_FRAME)){
+            ItemFrame itemFrame = (ItemFrame) event.getEntity();
+            if (event.getCause().equals(HangingBreakEvent.RemoveCause.DEFAULT))return;
+            if (!itemFrame.getItem().equals(Material.AIR)){
+                if (CustomItemBuilder.getFarmingCrop(itemFrame.getItem())!=null){
+                    Crop crop = CustomItemBuilder.getFarmingCrop(itemFrame.getItem());
+                    int stage = CustomItemBuilder.getStage(itemFrame.getItem());
+                    itemFrame.setItem(new ItemStack(Material.AIR));
+                    event.getEntity().getWorld().playSound(event.getEntity().getLocation(), Sound.BLOCK_CROP_BREAK, 4, 0);
+                    Main.getPlugin().getFrameList().remove(itemFrame.getUniqueId().toString());
+                    itemFrame.remove();
+                    switch (stage){
+                        case 1:
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                            break;
+                        case 2:
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                            break;
+                        case 3:
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
+                            break;
                     }
                 }
             }
