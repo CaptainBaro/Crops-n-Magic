@@ -51,7 +51,7 @@ public class BreathingAbility implements RelicAbility, Listener {
             if (Main.getPlugin().getRelicList().contains(Relic.UNDERWATER_BREATHING_RELIC.toString())){
                 return;
             }
-            if (r<0.01){
+            if (r<0.005){
                 event.getCaught().remove();
                 Item item = event.getPlayer().getWorld().dropItem(event.getCaught().getLocation(), new CustomItemBuilder(Relic.UNDERWATER_BREATHING_RELIC).createRelic());
                 event.getHook().setHookedEntity(item);
