@@ -29,9 +29,8 @@ public class EnderianTeleport implements SpellAbility, Listener {
         if (event.getEntity().getType().equals(EntityType.ENDERMAN)){
             if (event.getEntity().getKiller()==null)return;
             double r = Math.random();
-            if (r<0.01){
-                event.getDrops().add(new CustomItemBuilder(Spell.GREAT_TELEPORT).createSpell());
-            }
+            if (r>0.01)return;
+            event.getDrops().add(new CustomItemBuilder(Spell.GREAT_TELEPORT).createSpell());
         }
     }
 }

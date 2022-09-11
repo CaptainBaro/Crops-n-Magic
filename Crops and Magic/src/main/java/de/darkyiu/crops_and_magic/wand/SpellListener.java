@@ -1,8 +1,11 @@
 package de.darkyiu.crops_and_magic.wand;
 
+
 import de.darkyiu.crops_and_magic.Main;
 import de.darkyiu.crops_and_magic.custom_crafting.CustomItemBuilder;
 import de.darkyiu.crops_and_magic.custom_crafting.WandUpgradeModule;
+import de.darkyiu.crops_and_magic.spells.Buff;
+import de.darkyiu.crops_and_magic.spells.Mana;
 import de.darkyiu.crops_and_magic.spells.Spell;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,6 +16,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.concurrent.TimeUnit;
 
 public class SpellListener implements Listener {
+
+    private Mana mana = Main.getPlugin().getManaMap();
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -25,7 +30,9 @@ public class SpellListener implements Listener {
                 case 1:
                     if (CustomItemBuilder.getSpell(Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_1"))!=null){
                         Spell spell1 = CustomItemBuilder.getSpell(Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_1"));
+
                         if (onCooldown(1, event.getPlayer(), spell1, wandPath)){
+                            if (!mana.checkMana(event.getPlayer(), spell1))return;
                             spell1.getSpellAbility().onRightCLick(event.getPlayer(), event.getItem());
                         }
                     }else if (Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_1").equalsIgnoreCase("Open")) {
@@ -38,7 +45,8 @@ public class SpellListener implements Listener {
                     if (CustomItemBuilder.getSpell(Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_2"))!=null){
                     Spell spell1 = CustomItemBuilder.getSpell(Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_2"));
                         if (onCooldown(2, event.getPlayer(), spell1, wandPath)){
-                        spell1.getSpellAbility().onRightCLick(event.getPlayer(), event.getItem());
+                            if (!mana.checkMana(event.getPlayer(), spell1))return;
+                            spell1.getSpellAbility().onRightCLick(event.getPlayer(), event.getItem());
                         }
                     }else if (Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_2").equalsIgnoreCase("Open")) {
                     event.getPlayer().sendMessage("§cYou dont have a spell on this slot.");
@@ -50,6 +58,7 @@ public class SpellListener implements Listener {
                     if (CustomItemBuilder.getSpell(Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_3"))!=null){
                         Spell spell1 = CustomItemBuilder.getSpell(Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_3"));
                         if (onCooldown(3, event.getPlayer(), spell1, wandPath)){
+                            if (!mana.checkMana(event.getPlayer(), spell1))return;
                             spell1.getSpellAbility().onRightCLick(event.getPlayer(), event.getItem());
                         }
                     }else if (Main.getPlugin().getWandFile().getConfiguration().getString(event.getItem().getItemMeta().getLocalizedName() + ".Spell_3").equalsIgnoreCase("Open")) {
@@ -88,5 +97,39 @@ public class SpellListener implements Listener {
             return false;
         }
     }
+
+    public static double calculateDamage(Player player,double original, String wandPath){
+        double damage = original;
+        if (getUpgradeModule(wandPath, 1)!=null){
+            WandUpgradeModule wandUpgradeModule = getUpgradeModule(wandPath, 1);
+            damage = damage + (damage*(wandUpgradeModule.getDamage_increasing()/100));
+        }
+        if (getUpgradeModule(wandPath, 2)!=null){
+            WandUpgradeModule wandUpgradeModule = getUpgradeModule(wandPath, 2);
+            damage = damage + (damage*(wandUpgradeModule.getDamage_increasing()/100));
+        }
+        return damage;
+    }
+
+    public static double calculateMana(double original, String wandPath){
+        double mana = original;
+        if (getUpgradeModule(wandPath, 1)!=null){
+            WandUpgradeModule wandUpgradeModule = getUpgradeModule(wandPath, 1);
+            mana = mana - mana*(wandUpgradeModule.getMana_reduction()/100);
+        }
+        if (getUpgradeModule(wandPath, 2)!=null){
+            WandUpgradeModule wandUpgradeModule = getUpgradeModule(wandPath, 2);
+            mana = mana - mana*(wandUpgradeModule.getMana_reduction()/100);
+        }
+        return 0;
+    }
+
+    public static WandUpgradeModule getUpgradeModule(String path, int slot){
+        if (CustomItemBuilder.getWandUpgrade(Main.getPlugin().getWandFile().getConfiguration().getString(path + ".Upgrade_" + slot))!=null){
+            return CustomItemBuilder.getWandUpgrade(Main.getPlugin().getWandFile().getConfiguration().getString(path + ".Upgrade_" + slot));
+        }
+        return null;
+    }
+
 
 }

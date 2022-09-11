@@ -91,11 +91,11 @@ public class PlantListener implements Listener {
                         itemFrame.remove();
                         switch (stage){
                             case 1:
-                                itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                                itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
                                 break;
                             case 2:
-                                itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
-                                itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                                itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
+                                itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
                                 break;
                             case 3:
                                 itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
@@ -124,11 +124,11 @@ public class PlantListener implements Listener {
                     itemFrame.remove();
                     switch (stage){
                         case 1:
-                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
                             break;
                         case 2:
-                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
-                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(Crop.STRAWBERRY).createEatingCrop(crop));
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
+                            itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));
                             break;
                         case 3:
                             itemFrame.getWorld().dropItemNaturally(itemFrame.getLocation(), new CustomItemBuilder(crop).createEatingCrop(crop));

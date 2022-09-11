@@ -40,6 +40,7 @@ public class GlowingRelic implements RelicAbility {
                 event.getDrops().add(new CustomItemBuilder(Relic.GLOWING_RELIC).createRelic());
                 Main.getPlugin().getRelicList().add(Relic.GLOWING_RELIC.toString());
                 Relic.relicFound();
+                Main.getPlugin().data.addRelics(event.getEntity().getKiller().getUniqueId(), 1);
             }
         }
     }

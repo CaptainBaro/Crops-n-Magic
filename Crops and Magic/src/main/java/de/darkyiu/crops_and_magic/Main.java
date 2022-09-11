@@ -1,5 +1,6 @@
 package de.darkyiu.crops_and_magic;
 
+import com.ericlam.mc.kotlib.config.ConfigFactory;
 import de.darkyiu.crops_and_magic.commands.*;
 import de.darkyiu.crops_and_magic.crops.Crop;
 import de.darkyiu.crops_and_magic.custom_crafting.CustomItemBuilder;
@@ -9,14 +10,22 @@ import de.darkyiu.crops_and_magic.relics.relic_abilities.BreathingAbility;
 import de.darkyiu.crops_and_magic.relics.relic_abilities.FearRelic;
 import de.darkyiu.crops_and_magic.relics.relic_abilities.HealingRelic;
 import de.darkyiu.crops_and_magic.relics.relic_abilities.LastChanceRelic;
+import de.darkyiu.crops_and_magic.spells.BuffHashmap;
+import de.darkyiu.crops_and_magic.spells.Mana;
 import de.darkyiu.crops_and_magic.spells.spell_abilities.EnderianTeleport;
 import de.darkyiu.crops_and_magic.spells.spell_abilities.MountSpell;
+import de.darkyiu.crops_and_magic.sql.MySQL;
+import de.darkyiu.crops_and_magic.sql.SQLGetter;
 import de.darkyiu.crops_and_magic.util.Config;
 
 import de.darkyiu.crops_and_magic.wand.*;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemFrame;
@@ -24,7 +33,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,41 +43,62 @@ import java.util.UUID;
 public final class Main extends JavaPlugin {
 
     private static Main plugin;
-    private List<String> frameList;
+    private List<java.lang.String> frameList;
     private List<String> relicList;
     private List<String> blockList;
-    private Config config;
+    private Config cropconfig;
     private Config blockFile;
     private Config wandFile;
+    public Config homesFile;
     private ItemManager itemManager;
     private WandSpellHashmap wandSpellHashmap;
+    private Config config;
+    private Mana manaMap;
+    private BuffHashmap buffHashmap;
     private CooldownManager cooldownManager;
+    public MySQL SQL;
+    public SQLGetter data;
 
     @Override
     public void onEnable() {
         plugin = this;
         itemManager = new ItemManager();
         wandSpellHashmap = new WandSpellHashmap();
+        buffHashmap = new BuffHashmap();
         cooldownManager = new CooldownManager();
         frameList = new ArrayList<>();
+        manaMap = new Mana();
         blockList = new ArrayList<>();
         relicList = new ArrayList<>();
-
+        config = new Config("config.yml", getDataFolder());
+        homesFile = new Config("homes", getDataFolder());
         blockFile = new Config("blocks.yml", getDataFolder());
-        config = new Config("crop.yml", getDataFolder());
+        cropconfig = new Config("crop.yml", getDataFolder());
+        this.SQL = new MySQL();
+        this.data = new SQLGetter(this);
+        try {
+            SQL.connect();
+        } catch (ClassNotFoundException | SQLException e) {
+            //e.printStackTrace();
+            Bukkit.getLogger().info("Database not connected");
+        }
+        if(SQL.isConnected()){
+            Bukkit.getLogger().info("Database is connected!");
+            data.createTable();
+        }
         wandFile = new Config("wands.yml", getDataFolder());
         try {
-            frameList = config.getConfiguration().getStringList("framelist");
+            frameList = cropconfig.getConfiguration().getStringList("framelist");
         }catch (Exception e){
-            config.set("framelist", frameList);
-            config.save();
+            cropconfig.set("framelist", frameList);
+            cropconfig.save();
             Bukkit.getLogger().info("Neue Framelist created");
         }
         try {
-            relicList = config.getConfiguration().getStringList("reliclist");
+            relicList = cropconfig.getConfiguration().getStringList("reliclist");
         }catch (Exception e){
-            config.set("reliclist", relicList);
-            config.save();
+            cropconfig.set("reliclist", relicList);
+            cropconfig.save();
             Bukkit.getLogger().info("Neue Reliclist created");
         }
         if (blockFile.getConfiguration().getString("blocklist")!=null){
@@ -83,9 +115,12 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new HealingRelic(), this);
         Bukkit.getPluginManager().registerEvents(new BlockPlaceEvent(), this);
         Bukkit.getPluginManager().registerEvents(new BreathingAbility(), this);
+        Bukkit.getPluginManager().registerEvents(new JoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new WandAssemblyTable(), this);
         Bukkit.getPluginManager().registerEvents(new SwapItemListener(), this);
         Bukkit.getPluginManager().registerEvents(new CraftingTable(), this);
+        Bukkit.getPluginManager().registerEvents(new AnimalKillLIstener(), this);
+        Bukkit.getPluginManager().registerEvents(new DeathListener(), this);
         Bukkit.getPluginManager().registerEvents(new SpellListener(), this);
         Bukkit.getPluginManager().registerEvents(new EnderianTeleport(), this);
         Bukkit.getPluginManager().registerEvents(new FearRelic(), this);
@@ -98,6 +133,9 @@ public final class Main extends JavaPlugin {
         getCommand("relic").setExecutor(new RelicCommand());
         getCommand("test").setExecutor(new TestCommand());
         getCommand("spell").setExecutor(new SpellCommand());
+        getCommand("sethome").setExecutor(new SethomeCommand());
+        getCommand("reliclist").setExecutor(new RelicListCommand());
+        getCommand("home").setExecutor(new HomeCommand());
         getCommand("cui").setExecutor(new CustomItemCommand());
         getCommand("crop").setExecutor(new CropCommand());
 
@@ -105,6 +143,7 @@ public final class Main extends JavaPlugin {
         growItemFrames();
         forEveryPlayer();
         blockScheduler();
+        manaRegen();
         Bukkit.getLogger().info("Plugin loaded");
 
 
@@ -112,10 +151,10 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        config.set("framelist", frameList);
-        config.set("reliclist", relicList);
+        cropconfig.set("framelist", frameList);
+        cropconfig.set("reliclist", relicList);
         blockFile.set("blocklist", blockList);
-        config.save();
+        cropconfig.save();
         blockFile.save();
     }
 
@@ -132,7 +171,7 @@ public final class Main extends JavaPlugin {
         return relicList;
     }
     public Config getCropConfig() {
-        return config;
+        return cropconfig;
     }
 
     public void growItemFrames(){
@@ -192,7 +231,22 @@ public final class Main extends JavaPlugin {
                 }
             }
         }.runTaskTimer(this,  0, 5);
+    }
 
+    public void manaRegen(){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()){
+                    if ((manaMap.getMana(player)+10)>=100){
+                        manaMap.setMana(player, 100);
+                    }else {
+                        manaMap.setMana(player,manaMap.getMana(player)+5 );
+                    }
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + "Mana: " + manaMap.getMana(player)));
+                }
+            }
+        }.runTaskTimer(this, 0, 10);
     }
 
     public Config getWandFile() {
@@ -207,11 +261,28 @@ public final class Main extends JavaPlugin {
         return wandSpellHashmap;
     }
 
+    public BuffHashmap getBuffHashmap() {
+        return buffHashmap;
+    }
+
     public CooldownManager getCooldownManager() {
         return cooldownManager;
     }
 
     public Config getBlockFile() {
         return blockFile;
+    }
+
+    public Config getHomesFile() {
+        return homesFile;
+    }
+
+    public Mana getManaMap() {
+        return manaMap;
+    }
+
+
+    public Config getCustomConfig() {
+        return config;
     }
 }

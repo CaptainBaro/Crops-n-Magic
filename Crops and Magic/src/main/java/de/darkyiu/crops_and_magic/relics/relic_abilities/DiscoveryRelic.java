@@ -39,6 +39,7 @@ public class DiscoveryRelic implements RelicAbility, Listener {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             teleportInv.addItem(getItem(onlinePlayer));
         }
+        player.openInventory(teleportInv);
     }
 
     @Override

@@ -13,3 +13,6 @@ commands:
       - um
   relic:
     permission: op
+  home:
+  sethome:
+  reliclist:

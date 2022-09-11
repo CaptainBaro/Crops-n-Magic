@@ -12,9 +12,7 @@
     <name>Crops and Magic</name>
 
     <properties>
-        <kotlin.version>1.7.0</kotlin.version>
         <java.version>1.8</java.version>
-        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     </properties>
@@ -36,37 +34,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.7.0</version>
-                <executions>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>${project.basedir}/src/main/java</sourceDirs>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>test-compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>${project.basedir}/src/test/java</sourceDirs>
-                        </configuration>
-                    </execution>
-                </executions>
-                <configuration>
-                    <jvmTarget>1.8</jvmTarget>
-                    <sourceDirs>${project.basedir}/src/main/java</sourceDirs>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -137,17 +104,6 @@
             <artifactId>spigot</artifactId>
             <version>1.19-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>1.7.10</version>
-            <scope>test</scope>
         </dependency>
 
 

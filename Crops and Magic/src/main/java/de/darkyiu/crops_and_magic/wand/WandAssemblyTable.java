@@ -125,10 +125,10 @@ public class WandAssemblyTable implements Listener {
                         }
                         if (CustomItemBuilder.getTier(event.getCurrentItem().getItemMeta().getLocalizedName())>=5){
                             if (config.getConfiguration().getString(event.getCurrentItem().getItemMeta().getLocalizedName() + ".Upgrade_2").equalsIgnoreCase("open")){
-                                inventory.setItem(39, new ItemStack(Material.AIR));
+                                inventory.setItem(41, new ItemStack(Material.AIR));
                             }else if (config.getConfiguration().getString(event.getCurrentItem().getItemMeta().getLocalizedName() + ".Upgrade_2").contains("Upgrade")){
                                 WandUpgradeModule upgradeModule = CustomItemBuilder.getWandUpgrade(config.getConfiguration().getString(event.getCurrentItem().getItemMeta().getLocalizedName() + ".Upgrade_2"));
-                                inventory.setItem(39, new CustomItemBuilder(upgradeModule).createUpgradeModule());
+                                inventory.setItem(41, new CustomItemBuilder(upgradeModule).createUpgradeModule());
                             }
                         }else {
                             inventory.setItem(41, new ItemBuilder(Material.BARRIER).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).setName("§fNot unlocked yet").build());

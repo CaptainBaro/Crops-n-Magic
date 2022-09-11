@@ -2,6 +2,7 @@ package de.darkyiu.crops_and_magic.spells.spell_abilities;
 
 import de.darkyiu.crops_and_magic.spells.SpellAbility;
 import de.darkyiu.crops_and_magic.util.BasicUtility;
+import de.darkyiu.crops_and_magic.wand.SpellListener;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -22,7 +23,7 @@ public class FreezeLaser implements SpellAbility {
 
     @Override
     public void onRightCLick(Player player, ItemStack itemStack) {
-        BasicUtility.shootLaser(player, player.getEyeLocation(), 15, 2.5f, 6, Particle.SCRAPE, Sound.ENTITY_PLAYER_HURT_FREEZE,false, true, false);
+        BasicUtility.shootLaser(player, player.getEyeLocation(), 15, 2.5f, SpellListener.calculateDamage(player, 6, itemStack.getItemMeta().getLocalizedName()), Particle.SCRAPE, Sound.ENTITY_PLAYER_HURT_FREEZE,false, true, false);
     }
 
 }

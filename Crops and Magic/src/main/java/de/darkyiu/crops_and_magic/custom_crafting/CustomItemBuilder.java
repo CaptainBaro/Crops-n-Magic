@@ -171,19 +171,19 @@ public class CustomItemBuilder {
             case 1:
                 meta.setLocalizedName(crop.getLocalized_Farm_1());
                 meta.setCustomModelData(crop.getModel_Farm_1());
-                meta.setDisplayName(crop.getName() + "  " + stage);
+                meta.setDisplayName(crop.getLocalized_Farm_1());
                 itemStack.setItemMeta(meta);
                 return itemStack;
             case 2:
                 meta.setLocalizedName(crop.getLocalized_Farm_2());
                 meta.setCustomModelData(crop.getModel_Farm_2());
-                meta.setDisplayName(crop.getName() + "  " + stage);
+                meta.setDisplayName(crop.getLocalized_Farm_2());
                 itemStack.setItemMeta(meta);
                 return itemStack;
             case 3:
                 meta.setLocalizedName(crop.getLocalized_Farm_3());
                 meta.setCustomModelData(crop.getModel_Farm_3());
-                meta.setDisplayName(crop.getName() + "  " + stage);
+                meta.setDisplayName(crop.getLocalized_Farm_3());
                 itemStack.setItemMeta(meta);
                 return itemStack;
         }
@@ -222,7 +222,7 @@ public class CustomItemBuilder {
             }
         }
         lore.add("§7Cooldown Reduction: §a" + wandUpgradeModule.getCooldown_reduction() + "§7%");
-        lore.add("§7Cooldown Addition: §c" + wandUpgradeModule.getDamage_increasing() + "§7%");
+        lore.add("§7Damage Addition: §c" + wandUpgradeModule.getDamage_increasing() + "§7%");
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
@@ -232,7 +232,7 @@ public class CustomItemBuilder {
 
     public static Crop getFarmingCrop(ItemStack itemStack){
         if (itemStack.getItemMeta()==null)return null;
-        if (itemStack.getItemMeta().getLocalizedName()==null)return null;
+        if (itemStack.getItemMeta().getLocalizedName().equals(""))return null;
         for(Crop farmingCrop : Crop.values()){
             if (farmingCrop.getLocalized_Farm_1().equalsIgnoreCase(itemStack.getItemMeta().getLocalizedName())){
                 return farmingCrop;

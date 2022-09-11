@@ -34,6 +34,7 @@ public class TransportationRelic implements RelicAbility {
                 event.getDrops().add(new CustomItemBuilder(Relic.TRANSPORTATION_RELIC).createRelic());
                 Main.getPlugin().getRelicList().add(Relic.TRANSPORTATION_RELIC.toString());
                 Relic.relicFound();
+                Main.getPlugin().data.addRelics(event.getEntity().getKiller().getUniqueId(), 1);
             }
         }
     }

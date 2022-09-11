@@ -45,6 +45,7 @@ public class FearRelic implements RelicAbility, Listener {
                 event.getDrops().add(new CustomItemBuilder(Relic.FEAR_RELIC).createRelic());
                 Main.getPlugin().getRelicList().add(Relic.FEAR_RELIC.toString());
                 Relic.relicFound();
+                Main.getPlugin().data.addRelics(event.getEntity().getKiller().getUniqueId(), 1);
             }
         }
     }

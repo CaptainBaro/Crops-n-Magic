@@ -1,6 +1,7 @@
 package de.darkyiu.crops_and_magic.spells.spell_abilities;
 
 import de.darkyiu.crops_and_magic.spells.SpellAbility;
+import de.darkyiu.crops_and_magic.wand.SpellListener;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -28,7 +29,7 @@ public class LightningAbility implements SpellAbility {
             if (entity.getUniqueId() != player.getUniqueId()){
                 if (entity.getType().isAlive()){
                     LivingEntity livingEntity = (LivingEntity) entity;
-                    livingEntity.damage(8, player);
+                    livingEntity.damage(SpellListener.calculateDamage(player,8, itemStack.getItemMeta().getLocalizedName()), player);
                 }
             }
         }

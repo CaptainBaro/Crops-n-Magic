@@ -57,7 +57,7 @@ public class CraftingTable implements Listener {
             if (event.getClickedInventory().getItem(4)!=null){
                  itemStacks[1] = event.getClickedInventory().getItem(4);
             }else {
-                 itemStacks[1] = new ItemStack(Material.AIR);
+                  itemStacks[1] = new ItemStack(Material.AIR);
             }
             if (event.getClickedInventory().getItem(5)!=null){
                  itemStacks[2] = event.getClickedInventory().getItem(5);

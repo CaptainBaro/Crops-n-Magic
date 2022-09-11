@@ -52,7 +52,7 @@ public class BasicUtility {
         player.playSound(player, Sound.ENTITY_ENDERMAN_TELEPORT, 5, 5);
     }
 
-    public static List<Entity >getNearbyLivingEntitiesExceptEntity(Entity entity, int x, int y, int z){
+    public static List<Entity> getNearbyLivingEntitiesExceptEntity(Entity entity, int x, int y, int z){
         List<Entity> entities = new ArrayList<>();
         for (Entity e : entity.getNearbyEntities(x, y, z)){
             if (!e.getUniqueId().equals(entity.getUniqueId())){
@@ -65,7 +65,7 @@ public class BasicUtility {
     public static List<Entity> getEntitiesByLocation(Location location, float r){
         List<Entity> ent = new ArrayList<>();
         for (Entity e : location.getWorld().getEntities()){
-            if (e.getBoundingBox().contains(location.getX(), location.getY(), location.getZ())){
+            if (e.getBoundingBox().expand(0.5).contains(location.getX(), location.getY(), location.getZ())){
                 ent.add(e);
             }
         }

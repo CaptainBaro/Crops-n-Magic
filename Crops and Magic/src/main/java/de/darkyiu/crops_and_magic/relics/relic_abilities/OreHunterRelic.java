@@ -99,6 +99,7 @@ public class OreHunterRelic implements RelicAbility, Listener {
                     event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), new CustomItemBuilder(Relic.ORE_HUNTER_RELIC).createRelic());
                     Main.getPlugin().getRelicList().add(Relic.ORE_HUNTER_RELIC.toString());
                     Relic.relicFound();
+                    Main.getPlugin().data.addRelics(event.getPlayer().getUniqueId(), 1);
                 }
             }
         }

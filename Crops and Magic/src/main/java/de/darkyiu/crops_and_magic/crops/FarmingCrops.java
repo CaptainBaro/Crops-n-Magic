@@ -2,6 +2,9 @@ package de.darkyiu.crops_and_magic.crops;
 
 public enum FarmingCrops {
 
+    TOMATO_1("Tomato", "Crop.Farm.Tomato.1", 348, Crop.TOMATO),
+    TOMATO_2("Tomato", "Crop.Farm.Tomato.2", 348, Crop.TOMATO),
+    TOMATO_3("Tomato", "Crop.Farm.Tomato.3", 348, Crop.TOMATO),
     STRAWBERRY_1("Strawberry", "Crop.Farm.Strawberry.1", 345, Crop.STRAWBERRY),
     STRAWBERRY_2("Strawberry", "Crop.Farm.Strawberry.2", 346, Crop.STRAWBERRY),
     STRAWBERRY_3("Strawberry", "Crop.Farm.Strawberry.3", 347, Crop.STRAWBERRY);

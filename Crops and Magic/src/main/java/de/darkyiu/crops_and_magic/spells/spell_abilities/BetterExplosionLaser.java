@@ -1,6 +1,7 @@
 package de.darkyiu.crops_and_magic.spells.spell_abilities;
 
 import de.darkyiu.crops_and_magic.spells.SpellAbility;
+import de.darkyiu.crops_and_magic.wand.SpellListener;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -20,7 +21,7 @@ public class BetterExplosionLaser implements SpellAbility {
 
     @Override
     public void onRightCLick(Player player, ItemStack itemStack) {
-         shootExplosionLaser(player, player.getEyeLocation(), 30, 2.5f, 8, Particle.EXPLOSION_NORMAL, Sound.ENTITY_PANDA_BITE);
+         shootExplosionLaser(player, player.getEyeLocation(), 30, 2.5f, SpellListener.calculateDamage(player,8, itemStack.getItemMeta().getLocalizedName()), Particle.EXPLOSION_NORMAL, Sound.ENTITY_PANDA_BITE);
     }
 
     public static void shootExplosionLaser(Entity shooter, Location location, int range, float with, double damage , Particle particle, Sound sound){

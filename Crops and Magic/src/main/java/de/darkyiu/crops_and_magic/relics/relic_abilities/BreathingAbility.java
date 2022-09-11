@@ -57,6 +57,7 @@ public class BreathingAbility implements RelicAbility, Listener {
                 event.getHook().setHookedEntity(item);
                 event.getHook().pullHookedEntity();
                 Main.getPlugin().getRelicList().add(Relic.UNDERWATER_BREATHING_RELIC.toString());
+                Main.getPlugin().data.addRelics(event.getPlayer().getUniqueId(), 1);
                 Relic.relicFound();
             }
         }

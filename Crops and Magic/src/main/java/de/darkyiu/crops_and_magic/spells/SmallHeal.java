@@ -15,6 +15,7 @@ public class SmallHeal implements SpellAbility{
 
     }
 
+
     @Override
     public void onRightCLick(Player player, ItemStack itemStack) {
         BasicUtility.healPlayerSavely(player, 2);

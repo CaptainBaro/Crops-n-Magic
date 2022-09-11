@@ -44,6 +44,7 @@ public class HealingRelic implements RelicAbility, Listener {
             if (r<0.01){
                 event.getDrops().add(new CustomItemBuilder(Relic.HEALING_RELIC).createRelic());
                 Main.getPlugin().getRelicList().add(Relic.HEALING_RELIC.toString());
+                Main.getPlugin().data.addRelics(event.getEntity().getKiller().getUniqueId(), 1);
                 Relic.relicFound();
             }
         }

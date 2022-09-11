@@ -25,6 +25,7 @@ public class ChestListener implements Listener {
     private List<Crop> crops = new ArrayList<>();
     private boolean sucess = false;
     private List<Spell> spells = new ArrayList<>();
+    private final Random random = new Random();
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -42,7 +43,7 @@ public class ChestListener implements Listener {
                 }
             }
             crops.addAll(Arrays.asList(Crop.values()));
-            Crop crop = crops.get(new Random().nextInt(crops.size()));
+            Crop crop = crops.get(random.nextInt(crops.size()));
             chest.getBlockInventory().addItem(new CustomItemBuilder(crop).createEatingCrop(crop, new Random().nextInt(5)));
         }else if (lootTable.equals(LootTables.DESERT_PYRAMID.getLootTable())|| lootTable.equals(LootTables.RUINED_PORTAL.getLootTable())|| lootTable.equals(LootTables.JUNGLE_TEMPLE.getLootTable())|| lootTable.getKey().toString().contains("minecraft:chests/shipwreck")){
             generateSpells(chest, 2,1, 0.3);
@@ -67,7 +68,7 @@ public class ChestListener implements Listener {
         while (!sucess){
             spells = new ArrayList<>();
             spells.addAll(Arrays.asList(Spell.values()));
-            Spell spell = spells.get(new Random().nextInt(spells.size()));
+            Spell spell = spells.get(random.nextInt(spells.size()));
             if ((spell.getTier()>=lowestTier&&spell.getTier()<=highestTier)) {
                 double r1 = Math.random();
                 if (r1 > 0.3) {

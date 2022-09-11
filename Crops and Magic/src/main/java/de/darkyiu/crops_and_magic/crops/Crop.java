@@ -2,6 +2,7 @@ package de.darkyiu.crops_and_magic.crops;
 
 public enum Crop {
 
+
     TOMATO("§fTomato", null, 349, "Crop.Eat.Tomato", "Crop.Farm.Tomato.1", "Crop.Farm.Tomato.2", "Crop.Farm.Tomato.3", 350, 351,352),
     STRAWBERRY("§fStrawberry",null, 345, "Crop.Eat.Strawberry", "Crop.Farm.Strawberry.1","Crop.Farm.Strawberry.2", "Crop.Farm.Strawberry.3" , 346,347,348);
 
