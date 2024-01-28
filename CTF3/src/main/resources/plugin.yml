@@ -1,4 +1,0 @@
-name: CTF3
-version: '${project.version}'
-main: darkyiu.me.ctf3.CTF3
-api-version: '1.20'
